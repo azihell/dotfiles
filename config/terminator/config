@@ -1,0 +1,113 @@
+[global_config]
+  enabled_plugins = ActivityWatch, LaunchpadBugURLHandler, LaunchpadCodeURLHandler, APTURLHandler, Logger
+  suppress_multiple_term_dialog = True
+[keybindings]
+[profiles]
+  [[default]]
+    background_darkness = 0.8
+    cursor_color = "#aaaaaa"
+    scrollback_lines = 5000
+  [[T1000]]
+    background_darkness = 0.8
+    background_type = transparent
+    cursor_color = "#aaaaaa"
+    foreground_color = "#ffffff"
+    scrollback_lines = 5000
+    copy_on_selection = True
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+  [[T]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 0:28
+      maximised = False
+      fullscreen = False
+      size = 958, 1023
+      title = /bin/bash
+      last_active_window = True
+    [[[child1]]]
+      type = Notebook
+      parent = child0
+      order = 0
+      labels = Turtletabs, Monitoring, Others
+      last_active_term = c6bf65a5-66d9-43ae-bfd3-78d09238a2ff, 9a206be8-8909-4085-89da-feeda22cce37, 0b91c403-bdaf-4e3f-aadc-78165315e84c
+      active_page = 0
+    [[[child2]]]
+      type = VPaned
+      parent = child1
+      order = 0
+      position = 491
+      ratio = 0.5
+    [[[child3]]]
+      type = VPaned
+      parent = child2
+      order = 0
+      position = 243
+      ratio = 0.5
+    [[[child4]]]
+      type = HPaned
+      parent = child3
+      order = 0
+      position = 477
+      ratio = 0.501577287066246
+    [[[terminal5]]]
+      type = Terminal
+      parent = child4
+      order = 0
+      profile = T1000
+      title = roscore mastaaaar
+      uuid = 40ac24ba-c829-4882-a8b0-0c9b88960886
+      directory = ""
+    [[[terminal6]]]
+      type = Terminal
+      parent = child4
+      order = 1
+      profile = T1000
+      title = bring it on/up
+      uuid = c6bf65a5-66d9-43ae-bfd3-78d09238a2ff
+    [[[terminal7]]]
+      type = Terminal
+      parent = child3
+      order = 1
+      profile = T1000
+      title = SLAM!
+      uuid = eb59e86b-808e-40a5-8094-9479fa061cb7
+    [[[child8]]]
+      type = VPaned
+      parent = child2
+      order = 1
+      position = 244
+      ratio = 0.5
+    [[[terminal9]]]
+      type = Terminal
+      parent = child8
+      order = 0
+      profile = T1000
+      uuid = 865ca3c3-947a-4937-8e49-8702febd6be2
+    [[[terminal10]]]
+      type = Terminal
+      parent = child8
+      order = 1
+      profile = T1000
+      uuid = 4137a59f-7381-4ca6-9181-6c21a7f8755a
+    [[[terminal11]]]
+      type = Terminal
+      parent = child1
+      order = 1
+      profile = T1000
+      uuid = 9a206be8-8909-4085-89da-feeda22cce37
+    [[[terminal12]]]
+      type = Terminal
+      parent = child1
+      order = 2
+      profile = T1000
+      uuid = 0b91c403-bdaf-4e3f-aadc-78165315e84c
+[plugins]
