@@ -1,9 +1,9 @@
-# My dotfiles
+# My *dotfiles*
 
 ## What is this repo for?
 This repo function is twofold:
 
-1) It is a way to help me backup my custom 'dotfiles', by storing them. The dotfiles saved in this repo are listed in the section [Dotfiles](#dotfiles).
+1) It is a way to help me backup my custom *dotfiles*, by storing them. They are listed in the section [Dotfiles](#dotfiles).
 
 2) It keeps the `dotfiles_list` in it. This file is a guide for making `rsync` usage easier. The `dotfiles_list` contains the paths to many *dotfiles*
 
@@ -12,12 +12,11 @@ This repo function is twofold:
 [Go to Real Cool Heading section](#real-cool-heading)
 
 
-### But what are 'dotfiles'?
-Have you seen those settings files that are hidden? Many Linux applications use them!
-This file lists dotfiles inside different directories. It's purposeis to gather them all into one directory, so they can be pushed to one GitHub repository.
+### But what are *dotfiles*?
+Many Linux applications store their settings into hidden files. This repo gathers a lot of them into one place,for easy management. This is more easily done using `rsync`, as explained below.
 
-## How to use the dotfile_list file
-This file is a path list for `rsync` to syncronize every file and copy their latest version to the <destination> folder, that is the folder that contains this README.
+## How to use `rsync` and the `dotfile_list`
+`rsync` reads the `dotfile_list` file in order to syncronize the *dotfiles* listed in it and copy their latest version to the *<destination>* folder, which is the folder containing this README.
 *Attention*: if the `--dry-run` parameter is used no real syncing will happen, but the expected outcome will be shown. *That's **always** kinda a great idea.*
   
 ### rsyncing:
