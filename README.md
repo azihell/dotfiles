@@ -7,11 +7,6 @@ This repo function is twofold:
 
 2) It keeps the `dotfiles_list` in it. This file is a guide for making `rsync` usage easier. The `dotfiles_list` contains the paths to many *dotfiles*
 
-## Real cool heading
-
-[Go to Real Cool Heading section](#real-cool-heading)
-
-
 ### But what are *dotfiles*?
 Many Linux applications store their settings into hidden files. This repo gathers a lot of them into one place,for easy management. This is more easily done using `rsync`, as explained below.
 
