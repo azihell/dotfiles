@@ -1,0 +1,5 @@
+.xprofile
+.config/picom/picom.conf
+.config/qtile/config.py
+.config/nitrogen/nitrogen.cfg
+.config/kitty/kitty.conf
