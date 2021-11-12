@@ -1,7 +1,16 @@
 # My dotfiles
 
 ## What is this repo for?
-Merely a list for `rsync` to follow, in the end of the day. A way to help me backup my custom 'dotfiles'!
+This repo function is twofold:
+
+1) It is a way to help me backup my custom 'dotfiles', by storing them. The dotfiles saved in this repo are listed in the section [Dotfiles](#dotfiles).
+
+2) It keeps the `dotfiles_list` in it. This file is a guide for making `rsync` usage easier. The `dotfiles_list` contains the paths to many *dotfiles*
+
+## Real cool heading
+
+[Go to Real Cool Heading section](#real-cool-heading)
+
 
 ### But what are 'dotfiles'?
 Have you seen those settings files that are hidden? Many Linux applications use them!
@@ -20,13 +29,13 @@ user@pc $ rsync -vr --dry-run --files-from=dotfiles_list $HOME "<destination>"
 user@pc $ rsync -vr --files-from=dotfiles_list $HOME "<destination>"
 ```
 
-## And finally - what is being pushed!
+## Dotfiles
 
-- .xprofile: startup commands for X11 desktop.
-- nitrogen: simple wallpaper manager.
-- picom: window composer. Blur, opacity, rounded corners and more for your desktop environment.
+- [x] .xprofile: startup commands for X11 desktop.
+- [x] nitrogen: simple wallpaper manager.
+- [x] picom: window composer. Blur, opacity, rounded corners and more for your desktop environment.
   - Restart `picom`: automatic.
-- qtile: Python tiling manager settings.
+- [x] qtile: Python tiling manager settings.
   - Restart `qtile`: Super+Ctrl+R.
-- kitty: a terminal emulator.
+- [x] kitty: a terminal emulator.
   - Restart `kitty`: Ctrl+Shift+F5.
