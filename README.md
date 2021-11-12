@@ -7,8 +7,8 @@ Merely a list for `rsync` to follow, in the end of the day. A way to help me bac
 Have you seen those settings files that are hidden? Many Linux applications use them!
 This file lists dotfiles inside different directories. It's purposeis to gather them all into one directory, so they can be pushed to one GitHub repository.
 
-## How to use this file
-This file is a path list for `rsync` to syncronize every file and copy their latest version to the <destination> folder that will be pushed here.
+## How to use the dotfile_list file
+This file is a path list for `rsync` to syncronize every file and copy their latest version to the <destination> folder, that is the folder that contains this README.
 *Attention*: if the `--dry-run` parameter is used no real syncing will happen, but the expected outcome will be shown. *That's **always** kinda a great idea.*
   
 ### rsyncing:
