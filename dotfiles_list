@@ -3,3 +3,5 @@
 .config/qtile/config.py
 .config/nitrogen/nitrogen.cfg
 .config/kitty/kitty.conf
+.config/nvim/init.vim
+.config/ranger/rc.conf
