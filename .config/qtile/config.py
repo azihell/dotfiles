@@ -5,6 +5,8 @@
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
+from libqtile import qtile
+from libqtile.command import lazy
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
@@ -13,19 +15,37 @@ from libqtile.utils import guess_terminal
 # MY IMPORTS #
 ##############
 
+# from Xlib import X, display
+# from Xlib.ext import randr
+# from pprint import pprint
+# 
+# d = display.Display()
+# s = d.screen()
+# r = s.root
+# res = r.xrandr_get_screen_resources()._data
+# 
+# num_screens = 0
+# for output in res['outputs']:
+#     print("Output %d:" % (output))
+#     mon = d.xrandr_get_output_info(output, res['config_timestamp'])._data
+#     print("%s: %d" % (mon['name'], mon['num_preferred']))
+#     if mon['num_preferred']:
+#         num_screens += 1
+# 
+# print("%d screens found!" % (num_screens))
+
+##############
+# MY METHODS #
+##############
+
+
 #############
 # MY COLORS #
 #############
 
-# Neon colors
-neon = [["#fe3218", "#fe3218"],   # [0] Crimson red
-	 ["#ff911a", "#ff911a"],  # [1] Orange
-	 ["#e100f5", "#e100f5"],  # [2] Magenta
-	 ["#450eff", "#450eff"],  # [3] Blue
-	 ["#21006f", "#21006f"],  # [4] Darkest blue
-	 ["#78fdfa", "#78fdfa"],  # [5] Cyan
-       ]
-
+tc = {"btred": "#fe3218", "orange": "#ff911a", "magenta": "e100f5",
+    "btblue": "#450eff", "dkblue": "#21006f", "cyan": "#66d9ff",
+    "black": "#000000", "white": "#ffffff"}
 
 ############
 # MY FONTS #
@@ -38,7 +58,6 @@ neon = [["#fe3218", "#fe3218"],   # [0] Crimson red
 ###################
 # MOUSE CALLBACKS #
 ###################
-
 
 # "Super key" DEFINITION 
 mod = "mod4"
@@ -57,26 +76,26 @@ keys = [
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(),
-        desc="Move window focus to other window"),
+      desc="Move window focus to other window"),
 
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(),
-        desc="Move window to the left"),
+      desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(),
-        desc="Move window to the right"),
+      desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(),
-        desc="Move window down"),
+      desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(),
-        desc="Grow window to the left"),
+      desc="Grow window to the left"),
     Key([mod, "control"], "l", lazy.layout.grow_right(),
-        desc="Grow window to the right"),
+      desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(),
-        desc="Grow window down"),
+      desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
 
@@ -85,7 +104,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
+      desc="Toggle between split and unsplit sides of stack"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 
     # Toggle between different layouts as defined below
@@ -95,33 +114,45 @@ keys = [
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
+      desc="Spawn a command using a prompt widget"),
+
+    # ATT: Must install alsa-utils in order to control the volume!
     Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 -q set Master 1dB+")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 -q set Master 1dB-")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl -e set +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl -e set 5%-")),
-    Key([mod], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 50%"))
+    Key([mod], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 50%")),
 ]
 
-#####################
-# GROUP DEFINITIONS #
-#####################
+#################################
+# GROUP DEFINITIONS AND HOTKEYS #
+#################################
 
-groups = [Group(i) for i in "123456789"]
+group_info = [
+    ['1', 'Web'],
+    ['2', 'Nav'],
+    ['3', 'Cmd'],
+    ['4', 'Dbg'],
+    ]
+
+groups = [Group(name=i[0], label=i[1]) for i in group_info]
 
 for i in groups:
-    keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
+  keys.extend([
+    # mod1 + letter of group = switch to group
+    Key([mod], i.name, lazy.group[i.name].toscreen(),
+      desc="Switch to group {}".format(i.name)),
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-        #     desc="move focused window to group {}".format(i.name)),
+    # mod1 + shift + letter of group = switch to & move focused window to group
+    Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+      desc="Switch to & move focused window to group {}".format(i.name)),
+    # Or, use below if you prefer not to switch to that group.
+    # # mod1 + shift + letter of group = move focused window to group
+    # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+    #     desc="move focused window to group {}".format(i.name)),
+
+    Key([mod], "d", lazy.group['4'].toscreen(toggle=False),
+                    lazy.restart()),
     ])
 
 #####################
@@ -135,14 +166,15 @@ layouts = [
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
-    layout.MonadTall(margin=10, border_focus=neon[5], border_normal=neon[3], single_border_width=0, single_margin=0),
+    layout.MonadTall(margin=10, border_focus=tc["cyan"], border_normal= tc["btblue"]
+      , single_border_width=0, single_margin=0),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
     # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
-]
+    ]
 
 ###################
 # WIDGET DEFAULTS #
@@ -152,7 +184,7 @@ widget_defaults = dict(
     font='LoRes 9 OT',
     fontsize=14,
     padding=4,
-)
+    )
 extension_defaults = widget_defaults.copy()
 
 ###########
@@ -160,47 +192,56 @@ extension_defaults = widget_defaults.copy()
 ###########
 
 screens = [
-    Screen(
-        top=bar.Bar(
-            [	widget.CurrentLayout(background=neon[4], padding=6),
-                widget.GroupBox(background=neon[2], rounded=True),
-             	widget.Sep(padding=6, foreground=neon[4], background=neon[4], linewidth=0),
-                widget.Prompt(background=neon[3], padding=6),
-             	widget.Sep(padding=6, foreground=neon[4], background=neon[4], linewidth=0),
-                widget.WindowName(background=neon[4]),
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-		widget.WidgetBox(background=neon[4], widgets=[
-	                widget.TextBox("hellion", name="neon_default", foreground=neon[0], background=neon[4]),
-			widget.Net(interface=["enp7s0f1", "wlan0"], background=neon[4])
-			]
-		),
-                widget.Systray(),
-                widget.Clock(format='%a %d-%b %H:%M', background=neon[4]),
-             	widget.Sep(padding=10, foreground=neon[4], background=neon[4], linewidth=0),
-		widget.BatteryIcon(background=neon[4]),
-		widget.Volume(background=neon[4], volume_app="pavucontrol"),
-             	widget.Sep(padding=10, foreground=neon[4], background=neon[4], linewidth=0),
-                widget.QuickExit(background=neon[1]),
-            ],
-            24,
-        ),
-	
+  Screen(
+    top=bar.Bar(
+      [ widget.GroupBox(active=tc["orange"],
+        inactive=tc["white"], rounded=True, fontshadow=tc["black"],
+        fontsize=18, padding=6, font='LoRes 12 OT'),
+        widget.Sep(padding=6, linewidth=0),
+        widget.Prompt(padding=6, fontshadow=tc["black"]),
+        widget.Sep(padding=6, linewidth=0),
+        widget.WindowName(fontshadow=tc["black"], font='LoRes 15 OT', fontsize=18),
+        # widget.Chord(
+        #   chords_colors={
+        #     'launch': ("#ff0000", "#ffffff"),
+        #     },
+        #   name_transform=lambda name: name.upper(),
+        #   ),
+        # widget.WidgetBox(widgets=[
+        #   widget.TextBox("hellion", name="neon_default"),
+        #   widget.Net(interface=["enp7s0f1"], foreground=tc["black"]),
+        #   widget.Memory(foreground=tc["black"]),
+        #   ], foreground=tc["black"]),
+        widget.CheckUpdates(fontshadow=tc["black"], padding=10),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/cpu.png", padding=0),
+        widget.CPU(format='{freq_current} GHz {load_percent}% |',
+          fontshadow=tc["black"], ),
+        widget.Memory(format='RAM: {MemPercent: .2f}''%', fontshadow=tc['black']),
+        widget.Sep(padding=6, linewidth=0),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/calendar.png", padding=10),
+        widget.Clock(fontshadow=tc["black"], format='%a %d-%b %H:%M'),
+        widget.Sep(padding=10, linewidth=0),
+        widget.BatteryIcon(theme_path='/home/azihell/.config/qtile/icons/mybatt',
+          padding=10, update_interval=1),
+        widget.Battery(fontshadow=tc["black"], format='{percent:2.0%}', padding=0),
+        widget.Sep(padding=10, linewidth=0),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/volume.png", padding=0),
+        widget.Volume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
+        ],
+      24,
+      background=[tc["magenta"],tc["cyan"]]
     ),
+  ),
 ]
 
 # Drag floating layouts.
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
+      start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
+      start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front())
-]
+    ]
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
@@ -208,15 +249,15 @@ follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-])
+  # Run the utility of `xprop` to see the wm class and name of an X client.
+  *layout.Floating.default_float_rules,
+  Match(wm_class='confirmreset'),  # gitk
+  Match(wm_class='makebranch'),  # gitk
+  Match(wm_class='maketag'),  # gitk
+  Match(wm_class='ssh-askpass'),  # ssh-askpass
+  Match(title='branchdialog'),  # gitk
+  Match(title='pinentry'),  # GPG key password entry
+  ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
