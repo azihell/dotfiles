@@ -1,7 +1,10 @@
+.bashrc
 .xprofile
 .config/picom/picom.conf
 .config/qtile/config.py
-.config/nitrogen/nitrogen.cfg
+.config/qtile/fonts
+.config/qtile/icons
 .config/kitty/kitty.conf
 .config/nvim/init.vim
 .config/ranger/rc.conf
+
