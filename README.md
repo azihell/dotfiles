@@ -31,11 +31,11 @@ This basically tells `rsync` to look for the files to sync in a list, which is r
 - [x] .xprofile: startup commands for X11 desktop.
 - [x] [Nitrogen](https://wiki.archlinux.org/title/nitrogen): simple wallpaper manager.
 - [x] [Picom](https://wiki.archlinux.org/title/Picom): window composer. Blur, opacity, rounded corners and more for your desktop environment.
-  - Restart `Picom`: automatic.
+  - Restarting *Picom*: it's automatic.
 - [x] [Qtile](https://wiki.archlinux.org/title/Qtile): Python tiling manager.
-  - Restart `Qtile`: Super+Ctrl+R.
+  - Restarting *Qtile*: `Super+Ctrl+R`.
 - [x] [Kitty](https://wiki.archlinux.org/title/Kitty): a terminal emulator.
-  - Restart `Kitty`: Ctrl+Shift+F5.
+  - Restarting *Kitty*: `Ctrl+Shift+F5`.
 - [x] [Neovim](https://github.com/neovim/neovim): a new take on [Vim](https://github.com/vim/vim).
   - The file has settings as well as plugin declarations that are used along with [vim-plug](https://github.com/junegunn/vim-plug).
 - [x] [ranger](https://github.com/ranger/ranger): a file explorer that builds its interface straight from the console (or terminal emulator) and uses [Vim](https://github.com/vim/vim) key settings.
