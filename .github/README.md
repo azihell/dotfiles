@@ -44,3 +44,7 @@ This basically tells `rsync` to look for the files to sync in a list, which is r
 ## Desktop screenshot
 
 ![Here's a sample](myscreen.png)
+
+For now, I'm thinking of this neon-like theme for the colors, wallpapers and the retro font styles.. Coincidentally (?) it kind of matches the color of first game I ever played, "Test Drive" from Accolade, Inc.
+
+![Test Drive](testdrive1987.png)
