@@ -26,11 +26,11 @@ from libqtile.utils import guess_terminal
 # 
 # num_screens = 0
 # for output in res['outputs']:
-#     print("Output %d:" % (output))
-#     mon = d.xrandr_get_output_info(output, res['config_timestamp'])._data
-#     print("%s: %d" % (mon['name'], mon['num_preferred']))
-#     if mon['num_preferred']:
-#         num_screens += 1
+#   print("Output %d:" % (output))
+#   mon = d.xrandr_get_output_info(output, res['config_timestamp'])._data
+#   print("%s: %d" % (mon['name'], mon['num_preferred']))
+#   if mon['num_preferred']:
+#     num_screens += 1
 # 
 # print("%d screens found!" % (num_screens))
 
@@ -44,8 +44,8 @@ from libqtile.utils import guess_terminal
 #############
 
 tc = {"btred": "#fe3218", "orange": "#ff911a", "magenta": "e100f5",
-    "btblue": "#450eff", "dkblue": "#21006f", "cyan": "#66d9ff",
-    "black": "#000000", "white": "#ffffff"}
+  "btblue": "#450eff", "dkblue": "#21006f", "cyan": "#66d9ff",
+  "black": "#000000", "white": "#ffffff"}
 
 ############
 # MY FONTS #
@@ -212,7 +212,8 @@ screens = [
         #   widget.Net(interface=["enp7s0f1"], foreground=tc["black"]),
         #   widget.Memory(foreground=tc["black"]),
         #   ], foreground=tc["black"]),
-        widget.CheckUpdates(fontshadow=tc["black"], padding=10),
+        widget.CheckUpdates(fontshadow=tc["black"], padding=10,
+          update_interval=10),
         widget.Image(scale=True, filename="~/.config/qtile/icons/cpu.png", padding=0),
         widget.CPU(format='{freq_current} GHz {load_percent}% |',
           fontshadow=tc["black"], ),
@@ -221,12 +222,12 @@ screens = [
         widget.Image(scale=True, filename="~/.config/qtile/icons/calendar.png", padding=10),
         widget.Clock(fontshadow=tc["black"], format='%a %d-%b %H:%M'),
         widget.Sep(padding=10, linewidth=0),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/volume.png", padding=0),
+        widget.Volume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
         widget.BatteryIcon(theme_path='/home/azihell/.config/qtile/icons/mybatt',
           padding=10, update_interval=1),
         widget.Battery(fontshadow=tc["black"], format='{percent:2.0%}', padding=0),
         widget.Sep(padding=10, linewidth=0),
-        widget.Image(scale=True, filename="~/.config/qtile/icons/volume.png", padding=0),
-        widget.Volume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
         ],
       24,
       background=[tc["magenta"],tc["cyan"]]
