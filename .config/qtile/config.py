@@ -45,7 +45,7 @@ from libqtile.utils import guess_terminal
 
 tc = {"btred": "#fe3218", "orange": "#ff911a", "magenta": "e100f5",
   "btblue": "#450eff", "dkblue": "#21006f", "cyan": "#66d9ff",
-  "black": "#000000", "white": "#ffffff"}
+  "black": "#000000", "white": "#ffffff", "green": "#00ff00"}
 
 ############
 # MY FONTS #
@@ -116,9 +116,9 @@ keys = [
     Key([mod], "r", lazy.spawncmd(),
       desc="Spawn a command using a prompt widget"),
 
-    # ATT: Must install alsa-utils in order to control the volume!
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -c 0 -q set Master 1dB+")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -c 0 -q set Master 1dB-")),
+    # ATT: Must install pulseaudio-ctl (can be found in AUR) in order to control the volume!
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2dB")),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2dB")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl -e set +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl -e set 5%-")),
     Key([mod], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 50%")),
@@ -194,9 +194,23 @@ extension_defaults = widget_defaults.copy()
 screens = [
   Screen(
     top=bar.Bar(
-      [ widget.GroupBox(active=tc["orange"],
-        inactive=tc["white"], rounded=True, fontshadow=tc["black"],
-        fontsize=18, padding=6, font='LoRes 12 OT'),
+      [ widget.Sep(padding=10, linewidth=0),
+#        Group selections using block mode:
+#        widget.GroupBox(active=tc["btblue"], inactive=tc["white"], rounded=True,
+#          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
+#          visible_groups=['1', '2', '3'], highlight_method='block',
+#          block_highlight_text_color="#66d9ff"),
+#        widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
+#          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT', borderwidth=9,
+#          visible_groups=['4'], highlight_method='block', block_highlight_text_color="#00ff00"),
+        widget.GroupBox(active=tc["orange"], inactive=tc["white"], rounded=True,
+          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
+          visible_groups=['1', '2', '3'], highlight_method='line',
+          highlight_color=['66d9ff','21006f']),
+        widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
+          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
+          visible_groups=['4'], highlight_method='line',
+          highlight_color=['66d9ff','21006f']),
         widget.Sep(padding=6, linewidth=0),
         widget.Prompt(padding=6, fontshadow=tc["black"]),
         widget.Sep(padding=6, linewidth=0),
@@ -223,10 +237,11 @@ screens = [
         widget.Clock(fontshadow=tc["black"], format='%a %d-%b %H:%M'),
         widget.Sep(padding=10, linewidth=0),
         widget.Image(scale=True, filename="~/.config/qtile/icons/volume.png", padding=0),
-        widget.Volume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
+        widget.PulseVolume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
         widget.BatteryIcon(theme_path='/home/azihell/.config/qtile/icons/mybatt',
           padding=10, update_interval=1),
-        widget.Battery(fontshadow=tc["black"], format='{percent:2.0%}', padding=0),
+        widget.Battery(fontshadow=tc["black"], format='{percent:2.0%} {hour:d}:{min:02d}',
+          padding=0),
         widget.Sep(padding=10, linewidth=0),
         ],
       24,
