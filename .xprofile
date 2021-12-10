@@ -2,3 +2,4 @@ setxkbmap br abnt2 &
 xinput set-prop 15 'libinput Tapping Enabled' 1
 nitrogen --restore &
 picom --experimental-backends &
+# xrandr --output HDMI-1-0 --mode 1920x1080 --noprimary --left-of eDP-1
