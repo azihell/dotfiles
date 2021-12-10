@@ -15,6 +15,16 @@ from libqtile.utils import guess_terminal
 # MY IMPORTS #
 ##############
 
+# 'logger' is a logging object that enables writing on the standard Qtile log file
+# It's located at ~/.local/share/qtile/qtile.log
+# Suggestion: use "tail -f ~/.local/share/qtile/qtile.log" to watch the log file in real time
+import subprocess
+from libqtile.log_utils import logger
+from libqtile import hook
+
+# Sets the minimum logger level. See https://docs.python.org/3/library/logging.html#levels
+logger.setLevel(20)
+
 # from Xlib import X, display
 # from Xlib.ext import randr
 # from pprint import pprint
@@ -38,6 +48,20 @@ from libqtile.utils import guess_terminal
 # MY METHODS #
 ##############
 
+# @hook.subscribe.focus_change
+def mylogger():
+  logger.warning("Group changed!")
+
+def get_bluetooth_mac():
+  device = subprocess.Popen(["bluetoothctl", "devices"], stdout=subprocess.PIPE,
+      stdin=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+  device.wait()
+  output, errors = device.communicate()
+  device = output.split(" ")
+  mac = device[1]
+  mac_with_underscores = mac.replace(":", "_")
+  logger.info("Bluetooth widget connected device: '%s'", mac_with_underscores)
+  return("/dev_"+mac_with_underscores)
 
 #############
 # MY COLORS #
@@ -117,13 +141,14 @@ keys = [
       desc="Spawn a command using a prompt widget"),
 
     # ATT: Must install pulseaudio-ctl (can be found in AUR) in order to control the volume!
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +2dB")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -2dB")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1dB"),
+      desc="Raise the volume using PulseAudio"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -1dB"),
+      desc="Lower the volume using PulseAudio"),
     Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl -e set +5%")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl -e set 5%-")),
     Key([mod], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 50%")),
 ]
-
 #################################
 # GROUP DEFINITIONS AND HOTKEYS #
 #################################
@@ -226,6 +251,7 @@ screens = [
         #   widget.Net(interface=["enp7s0f1"], foreground=tc["black"]),
         #   widget.Memory(foreground=tc["black"]),
         #   ], foreground=tc["black"]),
+        widget.Bluetooth(fontshadow=tc['black'], hci=get_bluetooth_mac()),
         widget.CheckUpdates(fontshadow=tc["black"], padding=10,
           update_interval=10),
         widget.Image(scale=True, filename="~/.config/qtile/icons/cpu.png", padding=0),
@@ -237,7 +263,11 @@ screens = [
         widget.Clock(fontshadow=tc["black"], format='%a %d-%b %H:%M'),
         widget.Sep(padding=10, linewidth=0),
         widget.Image(scale=True, filename="~/.config/qtile/icons/volume.png", padding=0),
-        widget.PulseVolume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10),
+        widget.PulseVolume(fontshadow=tc["black"], volume_app="pavucontrol", padding=10,
+          get_volume_command="pactl get-sink-volume $(pactl get-default-sink) | grep % | cut -d " " -f 6",
+          limit_max_volume=True),
+#          volume_down_command="pactl set-sink-volume @DEFAULT_SINK@ -2dB",
+#          volume_up_command="pactl set-sink-volume @DEFAULT_SINK@ +2dB"),
         widget.BatteryIcon(theme_path='/home/azihell/.config/qtile/icons/mybatt',
           padding=10, update_interval=1),
         widget.Battery(fontshadow=tc["black"], format='{percent:2.0%} {hour:d}:{min:02d}',
