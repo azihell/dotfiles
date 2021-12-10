@@ -19,6 +19,12 @@ alias cd3='cd ../../..'
 alias cd4='cd ../../../..'
 
 alias qed='nvim ~/.config/qtile/config.py'
+alias qlog='tail -f ~/.local/share/qtile/qtile.log'
+alias ranger='LINES= COLUMNS= ranger'
+
+# History control
+
+export HISTCONTROL=ignoreboth:erasedups
 
 # Exports
 
