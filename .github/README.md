@@ -29,6 +29,8 @@ This basically tells `rsync` to look for the files to sync in a list, which is r
 ## Dotfiles
 
 - [x] .xprofile: startup commands for X11 desktop.
+- [x] [fish](https://fishshell.com/): shell to replace the ubiquitous [BASH](https://tiswww.case.edu/php/chet/bash/bashtop.html).
+  - [oh-my-fish](https://github.com/oh-my-fish/oh-my-fish) - `.fish` script that installs fish packages which extend or modify the `fish` shell.
 - [x] [Nitrogen](https://wiki.archlinux.org/title/nitrogen): simple wallpaper manager.
 - [x] [Picom](https://wiki.archlinux.org/title/Picom): window composer. Blur, opacity, rounded corners and more for your desktop environment.
   - Restarting *Picom*: it's automatic.
