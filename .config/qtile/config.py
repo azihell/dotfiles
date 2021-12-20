@@ -21,6 +21,7 @@ from libqtile.utils import guess_terminal
 import subprocess
 from libqtile.log_utils import logger
 from libqtile import hook
+from libqtile.widget import base
 
 # Sets the minimum logger level. See https://docs.python.org/3/library/logging.html#levels
 logger.setLevel(20)
@@ -62,6 +63,10 @@ def get_bluetooth_mac():
   mac_with_underscores = mac.replace(":", "_")
   logger.info("Bluetooth widget connected device: '%s'", mac_with_underscores)
   return("/dev_"+mac_with_underscores)
+
+##############
+# MY WIDGETS #
+##############
 
 #############
 # MY COLORS #
@@ -239,7 +244,7 @@ screens = [
         widget.Sep(padding=6, linewidth=0),
         widget.Prompt(padding=6, fontshadow=tc["black"]),
         widget.Sep(padding=6, linewidth=0),
-        widget.WindowName(fontshadow=tc["black"], font='LoRes 15 OT', fontsize=18),
+        widget.WindowName(fontshadow=tc["black"], font='LoRes 15 OT Bold', fontsize=18),
         # widget.Chord(
         #   chords_colors={
         #     'launch': ("#ff0000", "#ffffff"),
@@ -251,13 +256,18 @@ screens = [
         #   widget.Net(interface=["enp7s0f1"], foreground=tc["black"]),
         #   widget.Memory(foreground=tc["black"]),
         #   ], foreground=tc["black"]),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/bluetooth.png", padding=10),
         widget.Bluetooth(fontshadow=tc['black'], hci=get_bluetooth_mac()),
+        widget.Sep(padding=6, linewidth=0),
         widget.CheckUpdates(fontshadow=tc["black"], padding=10,
           update_interval=10),
-        widget.Image(scale=True, filename="~/.config/qtile/icons/cpu.png", padding=0),
-        widget.CPU(format='{freq_current} GHz {load_percent}% |',
+        widget.Sep(padding=6, linewidth=0),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/cpu.png", padding=10),
+        widget.CPU(format='{freq_current} GHz {load_percent}%',
           fontshadow=tc["black"], ),
-        widget.Memory(format='RAM: {MemPercent: .2f}''%', fontshadow=tc['black']),
+        widget.Sep(padding=6, linewidth=0),
+        widget.Image(scale=True, filename="~/.config/qtile/icons/memory.png", padding=10),
+        widget.Memory(format='{MemPercent: .2f}''%', fontshadow=tc['black']),
         widget.Sep(padding=6, linewidth=0),
         widget.Image(scale=True, filename="~/.config/qtile/icons/calendar.png", padding=10),
         widget.Clock(fontshadow=tc["black"], format='%a %d-%b %H:%M'),
