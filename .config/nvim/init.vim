@@ -25,7 +25,8 @@ set encoding=utf-8
 set scrolloff=5
 " Enables 24-bit RGB color on the terminal UI
 set termguicolors
-
+" Highlights the cursor line
+set cursorline
 """"""""""""""""""""
 " Plugins enabling "
 """"""""""""""""""""
@@ -59,6 +60,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'rafamadriz/neon'
 " Awesome Vim color schemes
 Plug 'rafi/awesome-vim-colorschemes'
+" Enable giving root permission to save changes to read-only files
+Plug 'lambdalisue/suda.vim'
 
 call plug#end()
 
@@ -71,6 +74,7 @@ let g:colorizer_auto_color = 1
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=026
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=DarkMagenta
 autocmd FileType python setlocal shiftwidth=0 tabstop=2
+autocmd FileType fish setlocal shiftwidth=0 tabstop=2
 
 " Settings for vim-rainbow
 let g:rainbow_active = 1
