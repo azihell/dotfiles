@@ -42,6 +42,8 @@ This basically tells `rsync` to look for the files to sync in a list, which is r
   - The file has settings as well as plugin declarations that are used along with [vim-plug](https://github.com/junegunn/vim-plug).
 - [x] [ranger](https://github.com/ranger/ranger): a file explorer that builds its interface straight from the console (or terminal emulator) and uses [Vim](https://github.com/vim/vim) key settings.
   - When used with *Kitty* terminal, it can also preview pictures!
+- [x] [zathura](https://pwmt.org/projects/zathura/): a PDF reader. Interacts nicely with Neovim when generating LaTeX documents.
+  - Must be used along with [zathura-pdf-poppler](https://archlinux.org/packages/community/x86_64/zathura-pdf-poppler/) or [zathura-pdf-mupdf](https://archlinux.org/packages/community/x86_64/zathura-pdf-mupdf/).
 
 ## Desktop screenshot
 
