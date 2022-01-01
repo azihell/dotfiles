@@ -27,18 +27,18 @@ set scrolloff=5
 set termguicolors
 " Highlights the cursor line
 set cursorline
-""""""""""""""""""""
+
+"##################"
 " Plugins enabling "
-""""""""""""""""""""
+"##################"
 
 " Defines plugins placement after downloading
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.config/nvim/plugged')
+
 " File explorer
 Plug 'scrooloose/NERDTree'
 " Colors pairs of brackets, parenthesis, etc
 Plug 'frazrepo/vim-rainbow'
-" Color theme for Neovim
-Plug 'arcticicestudio/nord-vim'
 " Colors indentation spaces vertically
 Plug 'nathanaelkane/vim-indent-guides'
 " Color visualization
@@ -56,12 +56,23 @@ endif
 Plug 'davidhalter/jedi-vim'
 " Advanced status bar
 Plug 'vim-airline/vim-airline'
-" Neon theme
-Plug 'rafamadriz/neon'
-" Awesome Vim color schemes
-Plug 'rafi/awesome-vim-colorschemes'
 " Enable giving root permission to save changes to read-only files
 Plug 'lambdalisue/suda.vim'
+" Markdown previewer
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+"##############"
+" Color themes "
+"##############"
+
+" Color theme for Neovim
+"Plug 'arcticicestudio/nord-vim'
+" Neon theme
+"Plug 'rafamadriz/neon'
+" Awesome Vim color schemes
+"Plug 'rafi/awesome-vim-colorschemes'
+" challenger_deep NEON color theme
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 
 call plug#end()
 
@@ -83,7 +94,12 @@ let g:rainbow_active = 1
 let g:deoplete#enable_at_startup = 1
 
 " Settings for Vim theme
-colorscheme nord
-let g:airline_theme = 'nord'
-let g:nord_cursor_line_number_background = 1
-let g:nord_italic_comments = 1
+colorscheme challenger_deep
+
+"colorscheme nord
+"let g:airline_theme = 'nord'
+"let g:nord_cursor_line_number_background = 1
+"let g:nord_italic_comments = 1
+
+" Settings for markdown-previewer
+let vim_markdown_preview_use_xdg_open=1
