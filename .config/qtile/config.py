@@ -163,6 +163,8 @@ group_info = [
     ['2', 'Nav'],
     ['3', 'Cmd'],
     ['4', 'Dbg'],
+    ['5', '1'],
+    ['6', '2'],
     ]
 
 groups = [Group(name=i[0], label=i[1]) for i in group_info]
@@ -282,12 +284,23 @@ screens = [
           padding=10, update_interval=1),
         widget.Battery(fontshadow=tc["black"], format='{percent:2.0%} {hour:d}:{min:02d}',
           padding=0),
-        widget.Sep(padding=10, linewidth=0),
-        ],
+        widget.Sep(padding=10, linewidth=0) 
+      ],
       24,
       background=[tc["magenta"],tc["cyan"]]
     ),
   ),
+#  Screen(
+#    top=bar.Bar(
+#      [ widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
+#          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
+#          visible_groups=['4'], highlight_method='line',
+#          highlight_color=['66d9ff','21006f'])
+#      ],
+#      24,
+#      background=tc[["magenta"],tc["cyan"]]
+#    ),
+#  ),
 ]
 
 # Drag floating layouts.
