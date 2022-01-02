@@ -290,17 +290,17 @@ screens = [
       background=[tc["magenta"],tc["cyan"]]
     ),
   ),
-#  Screen(
-#    top=bar.Bar(
-#      [ widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
-#          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
-#          visible_groups=['4'], highlight_method='line',
-#          highlight_color=['66d9ff','21006f'])
-#      ],
-#      24,
-#      background=tc[["magenta"],tc["cyan"]]
-#    ),
-#  ),
+  Screen(
+    top=bar.Bar(
+      [ widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
+          fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
+          visible_groups=['5', '6'], highlight_method='line',
+          highlight_color=['66d9ff','21006f'])
+      ],
+      24,
+      background=[tc["magenta"],tc["cyan"]]
+    ),
+  ),
 ]
 
 # Drag floating layouts.
