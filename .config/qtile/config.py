@@ -154,6 +154,7 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl -e set 5%-")),
     Key([mod], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 50%")),
 ]
+
 #################################
 # GROUP DEFINITIONS AND HOTKEYS #
 #################################
@@ -169,24 +170,50 @@ group_info = [
 
 groups = [Group(name=i[0], label=i[1]) for i in group_info]
 
+#def go_to_group(name):
+#  if name in '56':
+#        qtile.focus_screen(1)
+#    qtile.groups_map[name].cmd_toscreen()
+#  else:
+#    qtile.focus_screen(0)
+#    qtile.groups_map[name].cmd_toscreen()
+
+# 
+# Counting the amount of groups so the for loop below splits them into each of my screens
+def count_groups():
+  groups_number=[]
+  for i in groups:
+    groups_number.append(int(i.name))
+  return groups_number
+
+# This loop control the key pressing used to change the visible group.
+# In count_groups()[x], "x" defines how many groups will be shown on screen 0.
+# The rest of them will be shown on screen 1.
+
 for i in groups:
-  keys.extend([
-    # mod1 + letter of group = switch to group
-    Key([mod], i.name, lazy.group[i.name].toscreen(),
-      desc="Switch to group {}".format(i.name)),
-
-    # mod1 + shift + letter of group = switch to & move focused window to group
-    Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-      desc="Switch to & move focused window to group {}".format(i.name)),
-    # Or, use below if you prefer not to switch to that group.
-    # # mod1 + shift + letter of group = move focused window to group
-    # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-    #     desc="move focused window to group {}".format(i.name)),
-
-    Key([mod], "d", lazy.group['4'].toscreen(toggle=False),
-                    lazy.restart()),
-    ])
-
+  if int(i.name) < count_groups()[4]:
+    keys.extend([
+      # mod1 + letter of group = switch to group
+      # Key([mod], i.name, lazy.function(go_to_group(i.name))),
+      #  ])
+      Key([mod], i.name, lazy.group[i.name].toscreen(0),
+        desc="Switch to group {}".format(i.name)),
+      # mod1 + shift + letter of group = switch to & move focused window to group
+      Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+        desc="Switch to & move focused window to group {}".format(i.name)),
+      # Or, use below if you prefer not to switch to that group.
+      # # mod1 + shift + letter of group = move focused window to group
+      # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+      #     desc="move focused window to group {}".format(i.name)),
+      Key([mod], "d", lazy.group['4'].toscreen(toggle=False), lazy.restart()),
+    ]),
+  if int(i.name) >= count_groups()[4]:
+    keys.extend([
+      Key([mod], i.name, lazy.group[i.name].toscreen(1),
+        desc="Switch to another screen"),
+      Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
+        desc="Switch t & move window to group"),
+     ])
 #####################
 # LAYOUT DEFINTIONS #
 #####################
@@ -292,7 +319,7 @@ screens = [
   ),
   Screen(
     top=bar.Bar(
-      [ widget.GroupBox(active=tc["green"], inactive=tc["btred"], rounded=True,
+      [ widget.GroupBox(active=tc["orange"], inactive=tc["white"], rounded=True,
           fontshadow=tc["black"], fontsize=18, padding=0, font='LoRes 12 OT',
           visible_groups=['5', '6'], highlight_method='line',
           highlight_color=['66d9ff','21006f'])
