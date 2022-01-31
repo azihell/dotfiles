@@ -142,8 +142,10 @@ keys = [
 
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(),
-      desc="Spawn a command using a prompt widget"),
+    # Key([mod], "r", lazy.spawncmd(),
+    #  desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawn('rofi -show drun'),
+      desc="Opens rofi"),
 
     # ATT: Must install pulseaudio-ctl (can be found in AUR) in order to control the volume!
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1dB"),
@@ -160,12 +162,12 @@ keys = [
 #################################
 
 group_info = [
-    ['1', 'Web'],
-    ['2', 'Nav'],
-    ['3', 'Cmd'],
-    ['4', 'Dbg'],
-    ['5', '1'],
-    ['6', '2'],
+    ['1', 'Nav'],
+    ['2', 'Cmd'],
+    ['3', 'Dbg'],
+    ['4', 'Msc'],
+    ['5', 'Web'],
+    ['6', 'Msc'],
     ]
 
 groups = [Group(name=i[0], label=i[1]) for i in group_info]
